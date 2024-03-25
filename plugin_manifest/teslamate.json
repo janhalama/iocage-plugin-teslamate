@@ -1,0 +1,29 @@
+{
+    "name": "teslamate",
+    "release": "13.2-RELEASE",
+    "artifact": "https://github.com/janhalama/iocage-plugin-teslamate.git",
+    "properties": {
+        "nat":"1",
+        "nat_forwards": "tcp(4000:4000)"
+        },
+    "pkgs": [
+      "git",
+      "erlang",
+      "elixir",
+      "node",
+      "grafana9",
+      "mosquitto",
+      "npm-node20",
+      "postgresql16-server",
+      "postgresql16-contrib"
+    ],
+    "packagesite": "http://pkg.FreeBSD.org/${ABI}/quarterly",
+    "fingerprints": {
+        "plugin-default": [{
+                "function": "sha256",
+                "fingerprint": "b0170035af3acc5f3f3ae1859dc717101b4e6c1d0a794ad554928ca0cbb2f438"
+            }
+        ]
+    },
+    "official": false
+  }
