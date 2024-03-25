@@ -1,0 +1,4 @@
+{
+    "adminportal": "http://%%IP%%:4000/",
+    "docurl": "https://github.com/janhalama/iocage-plugin-teslamate"
+}

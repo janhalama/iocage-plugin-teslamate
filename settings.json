@@ -1,0 +1,37 @@
+{
+	"servicerestart":"service teslamate restart",
+	"serviceget": "/usr/local/bin/pluginget",
+	"serviceset": "/usr/local/bin/pluginset",
+	"options": {
+		"teslamate_db": {
+			"type": "string",
+			"name": "Database Name",
+			"description": "TeslaMate PostgreSQL Database name",
+			"readonly": true
+		},
+		"teslamate_db_user": {
+			"type": "string",
+			"name": "Database Username",
+			"description": "TeslaMate PostgreSQL Database username",
+			"readonly": true
+		},
+		"teslamate_db_pass": {
+			"type": "string",
+			"name": "Database Password",
+			"description": "TeslaMate PostgreSQL Database password",
+			"readonly": true
+		},
+		"teslamate_encryption_key": {
+			"type": "string",
+			"name": "Encryption Key",
+			"description": "TeslaMate Encryption Key",
+			"readonly": true
+		},
+		"teslamate_timezone": {
+			"type": "string",
+			"name": "Time Zone",
+			"description": "TeslaMate Time Zone",
+			"readonly": false
+		}
+	}
+}

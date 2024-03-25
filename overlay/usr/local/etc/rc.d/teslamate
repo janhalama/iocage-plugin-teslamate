@@ -1,0 +1,56 @@
+#!/bin/sh
+# PROVIDE: teslamate
+# REQUIRE: DAEMON, posgresql
+# KEYWORD: teslamate,tesla
+
+. /etc/rc.subr
+
+name=teslamate
+rcvar=teslamate_enable
+
+load_rc_config $name
+
+user=teslamate
+group=teslamate
+
+#
+# DO NOT CHANGE THESE DEFAULT VALUES HERE
+# SET THEM IN THE /etc/rc.conf FILE
+#
+teslamate_enable=${teslamate_enable-"NO"}
+pidfile=${teslamate_pidfile-"/var/run/${name}.pid"}
+
+teslamate_enable_mqtt=${teslamate_enable_mqtt-"FALSE"}
+teslamate_db_port=${teslamate_db_port-"5432"}
+
+HTTP_BINDING_ADDRESS="0.0.0.0"; export HTTP_BINDING_ADDRESS
+HOME="/usr/local/src/teslamate"; export HOME
+PORT=${teslamate_port-"4000"}; export PORT
+TZ=${teslamate_timezone-"Europe/Berlin"}; export TZ
+LANG=${teslamate_locale-"en_US.UTF-8"}; export LANG
+LC_CTYPE=${teslamate_locale-"en_US.UTF-8"}; export LC_TYPE
+DATABASE_NAME=${teslamate_db-"teslamate"}; export DATABASE_NAME
+DATABASE_HOST=${teslamate_db_host-"localhost"}; export DATABASE_HOST
+DATABASE_USER=${teslamate_db_user-"teslamate"}; export DATABASE_USER
+DATABASE_PASS=${teslamate_db_pass}; export DATABASE_PASS
+ENCRYPTION_KEY=${teslamate_encryption_key}; export ENCRYPTION_KEY
+DISABLE_MQTT=${teslamate_mqtt_enable-"FALSE"}; export DISABLE_MQTT
+MQTT_HOST=${teslamate_mqtt_host-"localhost"}; export MQTT_HOST
+# Uncomment if you need these
+#MQTT_USERNAME=${teslamate_mqtt_user-"teslamate"}; export MQTT_USERNAME
+#MQTT_PASSWORD=${teslamate_mqtt_pass-"mqttpassword"}; export MQTT_PASSWORD
+VIRTUAL_HOST=${teslamate_virtual_host-"teslamate.example.com"}; export VIRTUAL_HOST
+
+COMMAND=${teslamate_command-"${HOME}/_build/prod/rel/teslamate/bin/teslamate"}
+
+teslamate_start()
+{
+  ${COMMAND} eval "TeslaMate.Release.migrate"
+  ${COMMAND} daemon
+}
+
+start_cmd="${name}_start"
+stop_cmd="${COMMAND} stop"
+status_cmd="${COMMAND} pid"
+
+run_rc_command "$1"
