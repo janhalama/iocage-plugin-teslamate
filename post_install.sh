@@ -51,10 +51,10 @@ mix do phx.digest, release --overwrite
 echo teslamate_enable=\"YES\" >> /etc/rc.conf
 echo teslamate_db_host=\"localhost\"  >> /etc/rc.conf
 echo teslamate_db_port=\"5432\"  >> /etc/rc.conf
-#echo teslamate_db_pass=\"${DB_PASS}\" >> /etc/rc.conf
-#echo teslamate_encryption_key=\"${ENCRYPTION_KEY}\" >> /etc/rc.conf
+echo teslamate_db_pass=\"${DB_PASS}\" >> /etc/rc.conf
+echo teslamate_encryption_key=\"${ENCRYPTION_KEY}\" >> /etc/rc.conf
 echo teslamate_disable_mqtt=\"true\" >> /etc/rc.conf
-#echo teslamate_timezone=\"${TIME_ZONE}\" >> /etc/rc.conf #i.e. Europe/Berlin, America/Los_Angeles
+echo teslamate_timezone=\"${TIME_ZONE}\" >> /etc/rc.conf #i.e. Europe/Berlin, America/Los_Angeles
 
 # TeslaMate service
 chmod +x /usr/local/etc/rc.d/teslamate
