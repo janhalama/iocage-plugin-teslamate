@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Set the locale to UTF-8
+export LC_ALL=C.UTF-8
+
 # Default environment variables
 DB="teslamate"
 DB_USER="teslamate"
@@ -8,14 +11,15 @@ TIME_ZONE="Europe/Berlin"
 # Save the config values
 echo "$DB" > /root/teslamate_db
 echo "$DB_USER" > /root/teslamate_db_user
-export LC_ALL=C
 openssl rand --hex 8 > /root/teslamate_db_pass
 openssl rand --hex 8 > /root/teslamate_encryption_key
 DB_PASS=$(cat /root/teslamate_db_pass)
 ENCRYPTION_KEY=$(cat /root/teslamate_encryption_key)
 
 # Enable PostgreSQL 16 server
-echo postgres_enable=\"YES\" >> /etc/rc.conf
+echo postgresql_enable=\"YES\" >> /etc/rc.conf
+
+
 
 # Initialize the PostgreSQL database
 service postgresql initdb
@@ -33,7 +37,7 @@ echo grafana_enable=\"YES\" >> /etc/rc.conf
 echo mosquitto_enable=\"YES\" >> /etc/rc.conf
 
 # Clone TeslaMate git repository
-cd /usr/local/src
+cd /usr/local
 git clone https://github.com/teslamate-org/teslamate.git
 cd teslamate
 git checkout $(git describe --tags `git rev-list --tags --max-count=1`) # Checkout the latest stable version
