@@ -24,7 +24,7 @@ teslamate_enable_mqtt=${teslamate_enable_mqtt-"FALSE"}
 teslamate_db_port=${teslamate_db_port-"5432"}
 
 HTTP_BINDING_ADDRESS="0.0.0.0"; export HTTP_BINDING_ADDRESS
-HOME="/usr/local/src/teslamate"; export HOME
+HOME="/usr/local/teslamate"; export HOME
 PORT=${teslamate_port-"4000"}; export PORT
 TZ=${teslamate_timezone-"Europe/Berlin"}; export TZ
 LANG=${teslamate_locale-"en_US.UTF-8"}; export LANG
