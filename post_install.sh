@@ -19,16 +19,17 @@ ENCRYPTION_KEY=$(cat /root/teslamate_encryption_key)
 # Enable PostgreSQL 16 server
 echo postgresql_enable=\"YES\" >> /etc/rc.conf
 
-
-
 # Initialize the PostgreSQL database
 service postgresql initdb
-psql
-postgres=# create database ${DB};
-postgres=# create user ${DB_USER} with encrypted password '${DB_PASS}';
-postgres=# grant all privileges on database ${DB} to ${DB_USER};
-postgres=# ALTER USER ${DB_USER} WITH SUPERUSER;
-postgres=# \q
+
+# Start the PostgreSQL server
+service postgresql start
+
+# Create the TeslaMate database and user
+psql -U postgres -c "create database ${DB}"
+psql -U postgres -c "create user ${DB_USER} with encrypted password '${DB_PASS}'"
+psql -U postgres -c "grant all privileges on database ${DB} to ${DB_USER}"
+psql -U postgres -c "ALTER USER ${DB_USER} WITH SUPERUSER"
 
 # Enable Grafana
 echo grafana_enable=\"YES\" >> /etc/rc.conf
@@ -42,11 +43,13 @@ git clone https://github.com/teslamate-org/teslamate.git
 cd teslamate
 git checkout $(git describe --tags `git rev-list --tags --max-count=1`) # Checkout the latest stable version
 
+# Install Node.js dependencies and compile assets
+npm install --omit=dev --prefix ./assets && npm run deploy --prefix ./assets
+
 # Compile Elixir project
 mix local.hex --force; mix local.rebar --force
 
 mix deps.get --only prod
-npm install --omit=dev --prefix ./assets && npm run deploy --prefix ./assets
 
 export MIX_ENV=prod
 mix do phx.digest, release --overwrite
@@ -60,7 +63,8 @@ echo teslamate_encryption_key=\"${ENCRYPTION_KEY}\" >> /etc/rc.conf
 echo teslamate_disable_mqtt=\"true\" >> /etc/rc.conf
 echo teslamate_timezone=\"${TIME_ZONE}\" >> /etc/rc.conf #i.e. Europe/Berlin, America/Los_Angeles
 
-# TeslaMate service
+# Start TeslaMate service and enable it on boot time
 chmod +x /usr/local/etc/rc.d/teslamate
+service teslamate start
 
 # TODO: Add Grafana dashboards
