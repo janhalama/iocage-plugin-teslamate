@@ -46,9 +46,9 @@ git checkout $(git describe --tags `git rev-list --tags --max-count=1`) # Checko
 mix local.hex --force; mix local.rebar --force
 
 mix deps.get --only prod
-npm install --prefix ./assets && npm run deploy --prefix ./assets
+npm install --omit=dev --prefix ./assets && npm run deploy --prefix ./assets
 
-MIX_ENV=prod
+export MIX_ENV=prod
 mix do phx.digest, release --overwrite
 
 # Configure TeslaMate environment variables
