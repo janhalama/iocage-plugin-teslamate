@@ -67,4 +67,28 @@ echo teslamate_timezone=\"${TIME_ZONE}\" >> /etc/rc.conf #i.e. Europe/Berlin, Am
 chmod +x /usr/local/etc/rc.d/teslamate
 service teslamate start
 
-# TODO: Add Grafana dashboards
+# Create Grafana data source
+curl -X POST \
+    -H "Accept: application/json" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Basic YWRtaW46YWRtaW4=" \
+    -d '{
+            "name":"TeslaMate",
+            "type":"postgres",
+            "access": "proxy",
+            "url": "localhost:5432",
+            "user":"teslamate",
+            "secureJsonData": {
+                "password":"${DB_PASS}"
+            },
+            "jsonData": {
+                "database":"teslamate",
+                "sslmode":"disable",
+                "postgesVersion": "160",
+                "timescaledb": false
+            }
+        }' \
+    http://localhost:3000/api/datasources
+
+# Import Grafana dashboards
+./grafana/dashboards.sh restore
