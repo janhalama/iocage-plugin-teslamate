@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 
 # Set the locale to UTF-8
 export LC_ALL=C.UTF-8
@@ -34,8 +34,14 @@ psql -U postgres -c "ALTER USER ${DB_USER} WITH SUPERUSER"
 # Enable Grafana
 echo grafana_enable=\"YES\" >> /etc/rc.conf
 
+# Start Grafana
+service grafana start
+
 # Enable MQTT broker (mosquitto)
 echo mosquitto_enable=\"YES\" >> /etc/rc.conf
+
+# Start MQTT broker
+service mosquitto start
 
 # Clone TeslaMate git repository
 cd /usr/local
@@ -45,7 +51,7 @@ cd teslamate
 git checkout $(git describe --tags `git rev-list --tags --max-count=1`) # Checkout the latest stable version
 
 # Install Node.js dependencies and compile assets
-npm install --prefix ./assets && npm run deploy --prefix ./assets
+npm install --omit=dev --prefix ./assets && npm run deploy --prefix ./assets
 
 # Compile Elixir project
 mix local.hex --force; mix local.rebar --force
