@@ -39,12 +39,13 @@ echo mosquitto_enable=\"YES\" >> /etc/rc.conf
 
 # Clone TeslaMate git repository
 cd /usr/local
+git config --global advice.detachedHead false
 git clone https://github.com/teslamate-org/teslamate.git
 cd teslamate
 git checkout $(git describe --tags `git rev-list --tags --max-count=1`) # Checkout the latest stable version
 
 # Install Node.js dependencies and compile assets
-npm install --omit=dev --prefix ./assets && npm run deploy --prefix ./assets
+npm install --prefix ./assets && npm run deploy --prefix ./assets
 
 # Compile Elixir project
 mix local.hex --force; mix local.rebar --force
