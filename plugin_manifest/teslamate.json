@@ -3,10 +3,13 @@
     "release": "13.2-RELEASE",
     "artifact": "https://github.com/janhalama/iocage-plugin-teslamate.git",
     "properties": {
-        "nat":"1",
-        "nat_forwards": "tcp(4000:4000)"
-        },
+        "nat":"0",
+        "dhcp": "1",
+        "vnet": "1"
+    },
     "pkgs": [
+      "bash",
+      "jq",
       "git",
       "erlang",
       "elixir",
