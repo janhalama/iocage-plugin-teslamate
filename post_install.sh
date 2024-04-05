@@ -51,7 +51,7 @@ cd teslamate
 git checkout $(git describe --tags `git rev-list --tags --max-count=1`) # Checkout the latest stable version
 
 # Install Node.js dependencies and compile assets
-npm install --omit=dev --prefix ./assets && npm run deploy --prefix ./assets
+npm install --prefix ./assets && npm run deploy --prefix ./assets
 
 # Compile Elixir project
 mix local.hex --force; mix local.rebar --force
@@ -68,7 +68,7 @@ echo teslamate_db_port=\"5432\"  >> /etc/rc.conf
 echo teslamate_db_pass=\"${DB_PASS}\" >> /etc/rc.conf
 echo teslamate_encryption_key=\"${ENCRYPTION_KEY}\" >> /etc/rc.conf
 echo teslamate_disable_mqtt=\"true\" >> /etc/rc.conf
-echo teslamate_timezone=\"${TIME_ZONE}\" >> /etc/rc.conf #i.e. Europe/Berlin, America/Los_Angeles
+echo teslamate_timezone=\"${TIME_ZONE}\" >> /etc/rc.conf
 
 # Start TeslaMate service and enable it on boot time
 chmod +x /usr/local/etc/rc.d/teslamate
