@@ -50,13 +50,13 @@ git clone https://github.com/teslamate-org/teslamate.git
 cd teslamate
 git checkout $(git describe --tags `git rev-list --tags --max-count=1`) # Checkout the latest stable version
 
-# Install Node.js dependencies and compile assets
-npm install --prefix ./assets && npm run deploy --prefix ./assets
-
 # Compile Elixir project
 mix local.hex --force; mix local.rebar --force
 
 mix deps.get --only prod
+
+# Install Node.js dependencies and compile assets (after Elixir deps are resolved)
+npm install --prefix ./assets && npm run deploy --prefix ./assets
 
 export MIX_ENV=prod
 mix do phx.digest, release --overwrite
